@@ -1,0 +1,50 @@
+{
+  "name": "@ptomulik/github-releases-validator",
+  "version": "1.0.0",
+  "description": "A validator for GiHub's 'list releases' response",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ptomulik/github-releases-validator.git"
+  },
+  "homepage": "https://github.com/ptomulik/github-releases-validator/",
+  "bugs": "https://github.com/ptomulik/github-releases-validator/issues",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "jest",
+    "test-coverage": "jest --coverage",
+    "prettier": "prettier",
+    "eslint": "eslint",
+    "lint": "eslint '**/*.js'",
+    "lint-fix": "eslint --fix '**/*.js'",
+    "format": "prettier --check '**/*.js'",
+    "format-fix": "prettier --write '**/*.js'",
+    "ajv": "ajv",
+    "build": "ajv compile -s src/releases.json -c ajv-formats -o dist/index.js && js-beautify -s 2 -r dist/index.js",
+    "update-schema": "util/get-rest-api-description.sh v1.1.3 | jq -f util/filter-releases.jq - > src/releases.json"
+  },
+  "keywords": [
+    "github",
+    "releases",
+    "rest",
+    "api",
+    "json"
+  ],
+  "author": {
+    "name": "Paweł Tomulik",
+    "email": "ptomulik@meil.pw.edu.pl>"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "ajv-cli": "^4.0.1",
+    "eslint": "^7.17.0",
+    "eslint-plugin-github": "^4.1.1",
+    "eslint-plugin-jest": "^24.1.3",
+    "jest": "^26.6.3",
+    "js-beautify": "^1.13.4",
+    "prettier": "^2.2.1"
+  },
+  "dependencies": {
+    "ajv": "^7.0.3",
+    "ajv-formats": "^1.5.1"
+  }
+}
