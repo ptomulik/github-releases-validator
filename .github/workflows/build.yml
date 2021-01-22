@@ -6,7 +6,26 @@ on:
     - push
 
 jobs:
-    build:
+    releases:
+        name: src/releases.json
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/setup-node@v1
+              with:
+                  node-version: 12.x
+            - uses: actions/checkout@v2
+            - run: npm ci
+            - run: npm run update-schema
+            - name: Detect Changes
+              run: |
+                if ! __tests__/verify-no-unstaged-changes.sh; then
+                    echo '-----------------------------------------';
+                    echo 'Troubleshooting';
+                    echo '-----------------------------------------';
+                    echo '::error::Locally try running: git clean -ffdx && npm ci && npm run -- update-schema';
+                    false;
+                fi
+    index:
         name: dist/index.js
         runs-on: ubuntu-latest
         steps:
